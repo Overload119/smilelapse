@@ -1,38 +1,49 @@
-const {app, BrowserWindow} = require('electron')
-const path = require('path')
-const url = require('url')
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  Tray,
+  remote,
+  dialog,
+} = require('electron');
+
+const path = require('path');
+const url = require('url');
+const settings = require('electron-settings');
+
+const MenuActions = require('./menu_actions.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
+let tray;
 
-function createWindow () {
-  // Create the browser window.
-  win = new BrowserWindow({width: 1280, height: 720})
+app.on('ready', () => {
+  tray = new Tray('./media/wink 20x20Template.png');
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'Take Picture Now', type: 'normal', click: MenuActions.takePicture},
+    // {label: 'Make GIF', type: 'normal', click: MenuActions.makeGIF},
+    {label: 'View All Images', type: 'normal', click: MenuActions.viewAllImages},
+  ]);
+  tray.setToolTip('SmileLapse');
+  tray.setContextMenu(contextMenu);
 
-  // and load the index.html of the app.
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+  // Ensure that an image path has been specified.
+  settings.get('imagepath').then(val => {
+    if (val) {
+      return;
+    }
+    dialog.showOpenDialog(
+      {properties: ['openDirectory']},
+      (filePaths) => {
+        if (filePaths.length === 0) {
+            app.quit();
+        }
+        settings.set('imagepath', filePaths[0]);
+      }
+    );
+  });
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

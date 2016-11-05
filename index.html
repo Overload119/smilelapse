@@ -2,22 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="./index.css">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <video></video>
-    <script>
-      navigator.getUserMedia({video: true, audio: false}, function(localMediaStream) {
-        var video = document.querySelector('video');
-        video.src = window.URL.createObjectURL(localMediaStream);
-
-        // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
-        // See crbug.com/110938.
-        video.onloadedmetadata = function(e) {
-          // Ready to go. Do some stuff.
-        };
-      }, (error) => { console.log(error) });
-    </script>
+    <div id="overlay-countdown"></div>
+    <img id="overlay-img" />
+    <video width="1280" height="720"></video>
+    <script src="./index.js"></script>
   </body>
 </html>

@@ -35,7 +35,7 @@ let tray;
 
 app.on('ready', () => {
   log.info('App is ready.');
-  tray = new Tray(__dirname + '/media/wink 20x20Template.png');
+  tray = new Tray(path.join(__dirname, 'resources/tray_icon.png'));
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Take Picture Now', type: 'normal', click: MenuActions.takePicture},
     {label: 'View All Images', type: 'normal', click: MenuActions.viewAllImages},

@@ -5,7 +5,7 @@ Intended to be used every day to eventually stitch together a complete time laps
 
 ```
 npm install
-electron-packager . Smilelapse --overwrite
+electron-packager . Smilelapse --overwrite --icon=resources/app_icon.icns --prune=true
 ```
 
 ## Debugging the main process

@@ -31,17 +31,13 @@ if (!isDev) {
 
 log.info('Require complete...');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win;
 let tray;
 
 app.on('ready', () => {
   log.info('App is ready.');
-  tray = new Tray('./media/wink 20x20Template.png');
+  tray = new Tray(__dirname + '/media/wink 20x20Template.png');
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Take Picture Now', type: 'normal', click: MenuActions.takePicture},
-    // {label: 'Make GIF', type: 'normal', click: MenuActions.makeGIF},
     {label: 'View All Images', type: 'normal', click: MenuActions.viewAllImages},
     {label: 'Exit', type: 'normal', click: MenuActions.exit},
   ]);

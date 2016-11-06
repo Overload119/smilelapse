@@ -109,7 +109,6 @@ function makeImageOpaque(index, turnOpaque) {
   const node = document.getElementById('prev-img-' + index);
 
   if (turnOpaque) {
-    console.log(node.style.opacity.toString());
     node.setAttribute('data-saved-opacity', node.style.opacity.toString());
     node.style.opacity = 0.9;
   } else {
@@ -123,7 +122,7 @@ function makeImageOpaque(index, turnOpaque) {
 let isSpacebarDown = false;
 document.onkeydown = function(e) {
   if (e.keyCode === 32 && !isSpacebarDown) {
-    countdown && countdown.addSeconds(1) && countdown.pause();
+    countdown && countdown.addSeconds(1).pause();
     makeImageOpaque(0, true);
     isSpacebarDown = true;
   }

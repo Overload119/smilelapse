@@ -1,3 +1,5 @@
+const log = require('electron-log');
+
 class Countdown {
   constructor(node, timeInSeconds, onExpire) {
     this._countdownMs = timeInSeconds * 1000;
@@ -11,16 +13,22 @@ class Countdown {
 
   addSeconds(timeInSeconds) {
     this._countdownMs += timeInSeconds * 1000;
+    return this;
   }
 
   resume() {
+    log.info('Countdown resumed.');
+    this._node.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    this._node.style.transform = 'scale(1)';
     this._paused = false;
   }
 
   pause() {
+    log.info('Countdown paused.');
     this._node.style.backgroundColor = 'red';
     this._node.style.transform = 'scale(1.5)';
     this._paused = true;
+    return this;
   }
 
   _renderCountdown() {

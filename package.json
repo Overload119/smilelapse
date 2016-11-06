@@ -1,14 +1,18 @@
 {
-  "name": "faceonion",
+  "name": "Smilelapse",
   "version": "0.0.1",
   "main": "main.js",
   "dependencies": {
     "auto-launch": "^5.0.1",
+    "electron-debug": "^1.1.0",
+    "electron-is-dev": "^0.1.2",
+    "electron-log": "^1.2.2",
     "electron-settings": "^2.2.2",
     "moment": "^2.15.2",
     "promise": "^7.1.1"
   },
   "devDependencies": {
+    "devtron": "^1.4.0",
     "electron": "^1.4.5",
     "electron-packager": "^8.2.0"
   }

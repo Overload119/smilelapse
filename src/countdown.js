@@ -6,12 +6,21 @@ class Countdown {
     this._node = node;
     this._renderCountdown();
     this._onExpire = onExpire;
+    this._paused = false;
+  }
+
+  addSeconds(timeInSeconds) {
+    this._countdownMs += timeInSeconds * 1000;
+  }
+
+  resume() {
+    this._paused = false;
   }
 
   pause() {
     this._node.style.backgroundColor = 'red';
     this._node.style.transform = 'scale(1.5)';
-    clearInterval(this._timer);
+    this._paused = true;
   }
 
   _renderCountdown() {
@@ -20,6 +29,9 @@ class Countdown {
   }
 
   _tick() {
+    if (this._paused) {
+      return;
+    }
     this._elapsedMs += 1000;
     this._renderCountdown();
 

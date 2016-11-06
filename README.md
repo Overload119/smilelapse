@@ -5,5 +5,11 @@ Intended to be used every day to eventually stitch together a complete time laps
 
 ```
 npm install
-electron-packager . SmileLapse --overwrite
+electron-packager . Smilelapse --overwrite
+```
+
+## Debugging the main process
+
+```
+node_modules/.bin/electron-inspector
 ```

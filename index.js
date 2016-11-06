@@ -39,6 +39,7 @@ function setupOverlays() {
 
       for (var i = 0; i < nRecentFiles.length; i++) {
         const imageNode = document.createElement('img');
+        imageNode.id = 'prev-img-' + i;
         imageNode.src = path.join(imagePath, nRecentFiles[i]);
         // Fix the image size to that of the webcam stream.
         imageNode.style.width = `${videoNode.clientWidth}px`
@@ -104,6 +105,30 @@ function takeSnapshot() {
     });
 }
 
+function makeImageOpaque(index, turnOpaque) {
+  const node = document.getElementById('prev-img-' + index);
+
+  if (turnOpaque) {
+    console.log(node.style.opacity.toString());
+    node.setAttribute('data-saved-opacity', node.style.opacity.toString());
+    node.style.opacity = 0.9;
+  } else {
+    const oldOpacity = node.getAttribute('data-saved-opacity');
+    const opacity = oldOpacity || 0.5;
+    node.style.opacity = parseFloat(opacity, 10);
+    node.removeAttribute('data-saved-opacity');
+  }
+}
+
+let isSpacebarDown = false;
+document.onkeydown = function(e) {
+  if (e.keyCode === 32 && !isSpacebarDown) {
+    countdown && countdown.addSeconds(1) && countdown.pause();
+    makeImageOpaque(0, true);
+    isSpacebarDown = true;
+  }
+}
+
 document.onkeyup = function(e) {
   if (e.keyCode === 27) { // ESC
     countdown && countdown.pause();
@@ -112,6 +137,11 @@ document.onkeyup = function(e) {
       const win = remote.getCurrentWindow();
       win.close();
     }, 300);
+  }
+  else if (e.keyCode === 32) { // Spacebar
+    isSpacebarDown = false;
+    countdown && countdown.resume();
+    makeImageOpaque(0, false);
   }
 }
 

@@ -1,5 +1,3 @@
-log.info('Running main.js...');
-
 const {
   app,
   BrowserWindow,
@@ -16,6 +14,8 @@ const log = require('electron-log');
 const AutoLaunch = require('auto-launch');
 const isDev = require('electron-is-dev');
 
+log.info('Running main.js...');
+
 const MenuActions = require('./src/menu_actions.js');
 
 // Make the app autolaunch by default.
@@ -25,6 +25,7 @@ const autolaunch = new AutoLaunch({
 });
 
 if (!isDev) {
+  log.info('Enabling autolaunch...');
   autolaunch.enable();
 }
 
@@ -72,6 +73,11 @@ app.on('ready', () => {
     }
   }
 })
+
+app.on('window-all-closed', () => {
+  // Do nothing, even if there are no windows.
+  // This keeps the app running in the background.
+});
 
 // This app does not appear in the dock, only the menubar.
 app.dock.hide();

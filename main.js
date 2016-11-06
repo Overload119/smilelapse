@@ -1,3 +1,5 @@
+log.info('Running main.js...');
+
 const {
   app,
   BrowserWindow,
@@ -26,6 +28,8 @@ if (!isDev) {
   autolaunch.enable();
 }
 
+log.info('Require complete...');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
@@ -38,8 +42,9 @@ app.on('ready', () => {
     {label: 'Take Picture Now', type: 'normal', click: MenuActions.takePicture},
     // {label: 'Make GIF', type: 'normal', click: MenuActions.makeGIF},
     {label: 'View All Images', type: 'normal', click: MenuActions.viewAllImages},
+    {label: 'Exit', type: 'normal', click: MenuActions.exit},
   ]);
-  tray.setToolTip('SmileLapse');
+  tray.setToolTip('Smilelapse');
   tray.setContextMenu(contextMenu);
 
   // Ensure that an image path has been specified.
@@ -58,6 +63,7 @@ app.on('ready', () => {
     );
   });
 
+  // If `launch` is a startup argument, instantly start a picture.
   if (process.argv) {
     for (var i = 0; i < process.argv.length; i++) {
       if (process.argv[i] === 'launch') {
@@ -67,24 +73,6 @@ app.on('ready', () => {
   }
 })
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
-})
-
+// This app does not appear in the dock, only the menubar.
 app.dock.hide();
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

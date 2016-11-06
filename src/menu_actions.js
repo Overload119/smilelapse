@@ -6,6 +6,9 @@ const settings = require('electron-settings');
 let win;
 
 const MenuActions = {
+  exit: () => {
+    app.quit();
+  },
   takePicture: (menuItem, browserWindow, event) => {
     win = new BrowserWindow({
       width: 1280,
